@@ -10,9 +10,11 @@ config_version=5
 
 [application]
 
-config/name="PS1 Dungeon"
+config/name="Dungeoneer 95"
+config/description="Retro dungeon crawl in the style of Dungeon Master and Eye of The Beholder, done styled as a Playstation 1 game"
 run/main_scene="uid://cqojkvivqqsby"
 config/features=PackedStringArray("4.7", "GL Compatibility")
+config/icon="uid://mv2syiie50c5"
 
 [autoload]
 
@@ -22,7 +24,6 @@ Global="*uid://cykayrkah5ojj"
 
 window/size/viewport_width=320
 window/size/viewport_height=240
-window/size/resizable=false
 window/size/window_width_override=1280
 window/size/window_height_override=960
 window/stretch/mode="viewport"
