@@ -1,0 +1,8 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://cysntn2pitlle"]
+
+[ext_resource type="Texture2D" uid="uid://bkj7crk2efmug" path="res://textures/dirty_medieval_bricks_bright_3.png" id="1_w3usn"]
+
+[resource]
+albedo_texture = ExtResource("1_w3usn")
+uv1_triplanar = true
+texture_filter = 0

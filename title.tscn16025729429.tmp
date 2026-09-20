@@ -1,0 +1,61 @@
+[gd_scene format=3 uid="uid://cqojkvivqqsby"]
+
+[ext_resource type="Script" uid="uid://ud78glnt5pyn" path="res://src/title.gd" id="1_oyqm6"]
+[ext_resource type="FontFile" uid="uid://c581dp7ywpe4r" path="res://fonts/Seagram tfb.ttf" id="1_y7k74"]
+[ext_resource type="Texture2D" uid="uid://c7ui525i4a8yh" path="res://art/title_bg.jpg" id="2_kpexm"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_0r20c"]
+font = ExtResource("1_y7k74")
+font_size = 12
+outline_size = 9
+outline_color = Color(0.71, 0, 0, 1)
+shadow_color = Color(0, 0, 0, 0.76500005)
+shadow_offset = Vector2(5, 5)
+
+[node name="Title" type="Control" unique_id=1536226296]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_oyqm6")
+
+[node name="TitleBg" type="Sprite2D" parent="." unique_id=1383629092]
+position = Vector2(159.625, 120)
+scale = Vector2(0.2675146, 0.26785713)
+texture = ExtResource("2_kpexm")
+
+[node name="Label" type="Label" parent="." unique_id=1996636396]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 55.0
+offset_top = 53.0
+offset_right = -51.0
+offset_bottom = 76.0
+grow_horizontal = 2
+text = "PS1 Retro Dungeon Game"
+label_settings = SubResource("LabelSettings_0r20c")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="NewButton" type="Button" parent="." unique_id=1619547323]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -53.0
+offset_top = -64.0
+offset_right = 54.0
+offset_bottom = -40.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.8392157, 0.7607843, 0.023529412, 1)
+theme_override_fonts/font = ExtResource("1_y7k74")
+theme_override_font_sizes/font_size = 12
+text = "New Game"
+
+[connection signal="pressed" from="NewButton" to="." method="_on_start_button_pressed"]

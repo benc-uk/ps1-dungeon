@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://womh0ohpkmb4"]
+
+[ext_resource type="Script" uid="uid://dsdeg3sv4xtwd" path="res://src/game.gd" id="1_80nbo"]
+[ext_resource type="AudioStream" uid="uid://bmubbk004b4q" path="res://audio/music/450_Nightlands.mp3" id="2_e2o6t"]
+
+[node name="Game" type="Node3D" unique_id=432695886]
+script = ExtResource("1_80nbo")
+
+[node name="Map" type="Node3D" parent="." unique_id=516417765]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1198821759]
+stream = ExtResource("2_e2o6t")
+autoplay = true

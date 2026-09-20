@@ -1,0 +1,108 @@
+[gd_scene format=3 uid="uid://cqojkvivqqsby"]
+
+[ext_resource type="Script" uid="uid://ud78glnt5pyn" path="res://src/title.gd" id="1_oyqm6"]
+[ext_resource type="FontFile" uid="uid://c581dp7ywpe4r" path="res://fonts/Seagram tfb.ttf" id="1_y7k74"]
+[ext_resource type="Texture2D" uid="uid://c7ui525i4a8yh" path="res://art/title_bg.jpg" id="2_kpexm"]
+[ext_resource type="AudioStream" uid="uid://cy66liylfdk3n" path="res://audio/music/343_Dungeon_Collapse.mp3" id="4_3xoar"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_0r20c"]
+font = ExtResource("1_y7k74")
+font_size = 38
+font_color = Color(0.8862616, 0.88626146, 0.8862615, 1)
+outline_size = 9
+outline_color = Color(0.57684463, 0.11271153, 0, 1)
+shadow_size = 9
+shadow_color = Color(0, 0, 0, 0.76500005)
+shadow_offset = Vector2(3, 3)
+
+[node name="Title" type="Control" unique_id=1536226296]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_oyqm6")
+
+[node name="TitleBg" type="Sprite2D" parent="." unique_id=1383629092]
+texture_filter = 1
+position = Vector2(159.625, 120)
+scale = Vector2(0.2675146, 0.26785713)
+texture = ExtResource("2_kpexm")
+
+[node name="Label" type="Label" parent="." unique_id=1996636396]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 39.0
+offset_top = 14.0
+offset_right = -33.0
+offset_bottom = 62.0
+grow_horizontal = 2
+text = "Dungeoneer '95"
+label_settings = SubResource("LabelSettings_0r20c")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="NewButton" type="Button" parent="." unique_id=1619547323]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -54.0
+offset_top = -95.0
+offset_right = 53.0
+offset_bottom = -71.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.8392157, 0.7607843, 0.023529412, 1)
+theme_override_fonts/font = ExtResource("1_y7k74")
+theme_override_font_sizes/font_size = 12
+text = "New Game"
+
+[node name="LoadButton" type="Button" parent="." unique_id=2078588754]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -54.0
+offset_top = -61.0
+offset_right = 53.0
+offset_bottom = -37.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.8392157, 0.7607843, 0.023529412, 1)
+theme_override_fonts/font = ExtResource("1_y7k74")
+theme_override_font_sizes/font_size = 12
+text = "Load Game"
+
+[node name="Label2" type="Label" parent="." unique_id=470582943]
+layout_mode = 0
+offset_left = 4.0
+offset_top = 226.0
+offset_right = 49.0
+offset_bottom = 240.0
+theme_override_font_sizes/font_size = 10
+text = "v0.0.1"
+vertical_alignment = 1
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1632124358]
+stream = ExtResource("4_3xoar")
+autoplay = true
+
+[node name="MusicCheckButton" type="CheckButton" parent="." unique_id=888109611]
+layout_mode = 0
+offset_left = 261.0
+offset_top = 225.20003
+offset_right = 356.0
+offset_bottom = 254.20003
+scale = Vector2(0.6, 0.6)
+theme_override_fonts/font = ExtResource("1_y7k74")
+text = "Music"
+
+[connection signal="pressed" from="NewButton" to="." method="_on_new_button_pressed"]
+[connection signal="toggled" from="MusicCheckButton" to="." method="_on_music_check_button_toggled"]
