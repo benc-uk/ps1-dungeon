@@ -1,13 +1,27 @@
 [gd_scene format=3 uid="uid://womh0ohpkmb4"]
 
 [ext_resource type="Script" uid="uid://dsdeg3sv4xtwd" path="res://src/game.gd" id="1_80nbo"]
-[ext_resource type="AudioStream" uid="uid://bmubbk004b4q" path="res://audio/music/450_Nightlands.mp3" id="2_e2o6t"]
+[ext_resource type="AudioStream" uid="uid://c6ju4cycpkyii" path="res://audio/music/236_Defiled_Temple.mp3" id="2_feb5d"]
+[ext_resource type="Shader" uid="uid://cak1jdr8fw6km" path="res://misc/ps1_output.gdshader" id="3_feb5d"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_feb5d"]
+shader = ExtResource("3_feb5d")
+shader_parameter/dither_strength = 1.0
 
 [node name="Game" type="Node3D" unique_id=432695886]
 script = ExtResource("1_80nbo")
 
 [node name="Map" type="Node3D" parent="." unique_id=516417765]
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1198821759]
-stream = ExtResource("2_e2o6t")
+[node name="Music" type="AudioStreamPlayer" parent="." unique_id=1198821759]
+stream = ExtResource("2_feb5d")
+volume_db = -5.51
 autoplay = true
+
+[node name="PostProcess" type="CanvasLayer" parent="." unique_id=90440322]
+
+[node name="FullscreenRectOut" type="ColorRect" parent="PostProcess" unique_id=87263962]
+material = SubResource("ShaderMaterial_feb5d")
+offset_right = 320.0
+offset_bottom = 240.0
+mouse_filter = 2

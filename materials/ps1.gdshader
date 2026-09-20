@@ -1,5 +1,5 @@
 shader_type spatial;
-render_mode diffuse_lambert, specular_disabled;
+render_mode diffuse_lambert, specular_disabled, vertex_lighting;
 
 // Opaque, mesh-UV material. Snap size is measured before window upscaling.
 // For one texture repeat per face: UV scale (3, 2) on BoxMesh, (1, 1) on PlaneMesh.
@@ -10,8 +10,8 @@ uniform vec2 uv_offset = vec2(0.0);
 uniform float affine_strength : hint_range(0.0, 1.0, 0.05) = 1.0;
 uniform float snap_pixels : hint_range(0.0, 8.0, 0.25) = 1.0;
 
-// Camera-depth floor in world units: soften close-up warping and keep UV weights positive.
-const float AFFINE_MIN_DEPTH = 1.0;
+// Keep weights positive at the camera plane without flattening nearby cell depths.
+const float AFFINE_MIN_DEPTH = 0.75;
 
 varying vec3 affine_uv;
 
@@ -37,7 +37,7 @@ void vertex() {
 
 void fragment() {
 	vec2 warped_uv = affine_uv.xy / max(affine_uv.z, 0.00001);
-	vec2 texture_uv = mix(UV, warped_uv, affine_strength);
+	vec2 texture_uv = mix(UV, warped_uv.xy, affine_strength);
 	ALBEDO = texture(albedo_texture, texture_uv).rgb * albedo_tint;
 	ROUGHNESS = 1.0;
 	SPECULAR = 0.0;

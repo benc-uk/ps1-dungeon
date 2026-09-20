@@ -10,5 +10,5 @@ shader_parameter/albedo_texture = ExtResource("2_texture")
 shader_parameter/albedo_tint = Color(1, 1, 1, 1)
 shader_parameter/uv_scale = Vector2(3, 2)
 shader_parameter/uv_offset = Vector2(0, 0)
-shader_parameter/affine_strength = 0.70000001043084
+shader_parameter/affine_strength = 1.0
 shader_parameter/snap_pixels = 2.0

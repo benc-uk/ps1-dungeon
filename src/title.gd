@@ -6,8 +6,6 @@ func _ready():
 	#start_new_game("tomb")
 	_on_music_check_button_toggled($MusicCheckButton.button_pressed)
 
-
-
 func _on_new_button_pressed():
 	print("Starting game...")
 	start_new_game("tomb")
@@ -23,4 +21,4 @@ func start_new_game(level_filename: String):
 
 func _on_music_check_button_toggled(toggled_on):
 	var vol: float = 0.0 if toggled_on else -80.0
-	$AudioStreamPlayer.volume_db = vol
+	$Music.volume_db = vol

@@ -1,7 +1,7 @@
 extends Node3D
 
-const step_duration: float = 0.98
-const turn_duration: float = 0.66
+const step_duration: float = 0.9
+const turn_duration: float = 0.6
 const move_speed: float = 1.0
 
 var cell: Vector2i
@@ -12,6 +12,9 @@ enum State { IDLE, MOVING, TURNING }
 var state: State = State.IDLE
 var movement_tween: Tween
 
+func _ready():
+	pass
+		
 func _physics_process(_delta: float) -> void:
 	if state != State.IDLE:
 		return
@@ -65,6 +68,14 @@ func _try_step(direction: Vector2i) -> void:
 		step_duration
 	)
 	movement_tween.finished.connect(_finish_action)
+	_play_footstep()
+	movement_tween.parallel().tween_callback(_play_footstep).set_delay(
+			step_duration * 0.5
+	)
+	
+func _play_footstep() -> void:
+		$FootstepSfx.pitch_scale = randf_range(0.8, 1.2)
+		$FootstepSfx.play()
 
 func _turn(quarter_turns: int) -> void:
 	var target_yaw := rotation.y - quarter_turns * PI / 2.0

@@ -3,7 +3,8 @@
 [ext_resource type="Script" uid="uid://ud78glnt5pyn" path="res://src/title.gd" id="1_oyqm6"]
 [ext_resource type="FontFile" uid="uid://c581dp7ywpe4r" path="res://fonts/Seagram tfb.ttf" id="1_y7k74"]
 [ext_resource type="Texture2D" uid="uid://c7ui525i4a8yh" path="res://art/title_bg.jpg" id="2_kpexm"]
-[ext_resource type="AudioStream" uid="uid://cy66liylfdk3n" path="res://audio/music/343_Dungeon_Collapse.mp3" id="4_3xoar"]
+[ext_resource type="AudioStream" uid="uid://ckhbwkrruqoyv" path="res://audio/music/488_Manor_Dark.mp3" id="4_mom7w"]
+[ext_resource type="Shader" uid="uid://cak1jdr8fw6km" path="res://misc/ps1_output.gdshader" id="5_mom7w"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_0r20c"]
 font = ExtResource("1_y7k74")
@@ -14,6 +15,10 @@ outline_color = Color(0.57684463, 0.11271153, 0, 1)
 shadow_size = 9
 shadow_color = Color(0, 0, 0, 0.76500005)
 shadow_offset = Vector2(3, 3)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7lgly"]
+shader = ExtResource("5_mom7w")
+shader_parameter/dither_strength = 1.0
 
 [node name="Title" type="Control" unique_id=1536226296]
 layout_mode = 3
@@ -90,8 +95,8 @@ theme_override_font_sizes/font_size = 10
 text = "v0.0.1"
 vertical_alignment = 1
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1632124358]
-stream = ExtResource("4_3xoar")
+[node name="Music" type="AudioStreamPlayer" parent="." unique_id=1632124358]
+stream = ExtResource("4_mom7w")
 autoplay = true
 
 [node name="MusicCheckButton" type="CheckButton" parent="." unique_id=888109611]
@@ -102,7 +107,16 @@ offset_right = 356.0
 offset_bottom = 254.20003
 scale = Vector2(0.6, 0.6)
 theme_override_fonts/font = ExtResource("1_y7k74")
+button_pressed = true
 text = "Music"
+
+[node name="PostProcess" type="CanvasLayer" parent="." unique_id=1735807288]
+
+[node name="FullscreenRectOut" type="ColorRect" parent="PostProcess" unique_id=1250096535]
+material = SubResource("ShaderMaterial_7lgly")
+offset_right = 320.0
+offset_bottom = 240.0
+mouse_filter = 2
 
 [connection signal="pressed" from="NewButton" to="." method="_on_new_button_pressed"]
 [connection signal="toggled" from="MusicCheckButton" to="." method="_on_music_check_button_toggled"]

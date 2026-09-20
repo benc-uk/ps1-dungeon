@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bsdvlmb7xijeq" path="res://src/player.gd" id="1_4flbx"]
 [ext_resource type="Script" uid="uid://87sk14kx8d7o" path="res://src/light_flicker.gd" id="2_onrkg"]
+[ext_resource type="AudioStream" uid="uid://pom4vp22u3bs" path="res://audio/sfx/footstep.wav" id="3_i3pqv"]
 
 [node name="Player" type="Node3D" unique_id=371386453]
 script = ExtResource("1_4flbx")
@@ -25,8 +26,13 @@ light_indirect_energy = 0.0
 light_volumetric_fog_energy = 0.0
 light_specular = 0.0
 omni_range = 1.2
-omni_attenuation = 2.0
+omni_attenuation = 2.2
 script = ExtResource("2_onrkg")
 flicker_speed = 1.3
 base_energy = 0.2
 flicker_intensity = 6.0
+
+[node name="FootstepSfx" type="AudioStreamPlayer3D" parent="." unique_id=1106797590]
+stream = ExtResource("3_i3pqv")
+volume_db = -33.333
+bus = &"Dungeon"

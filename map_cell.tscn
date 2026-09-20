@@ -6,11 +6,18 @@
 [ext_resource type="Material" uid="uid://07jmea2hugpj" path="res://materials/ps1_ceiling_material.tres" id="4_ceiling"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_0r20c"]
+subdivide_width = 1
+subdivide_height = 1
+subdivide_depth = 1
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_0r20c"]
+subdivide_width = 1
+subdivide_depth = 1
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_48buh"]
 flip_faces = true
+subdivide_width = 1
+subdivide_depth = 1
 
 [node name="MapCell" type="Node3D" unique_id=865743777]
 script = ExtResource("1_1m6tf")
