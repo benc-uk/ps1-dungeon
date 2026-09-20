@@ -3,9 +3,6 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [main]
-    paths:
-      - dist/web/**
-      - .github/workflows/deploy-pages.yml
   workflow_dispatch:
 
 # Allow the workflow to publish to Pages
@@ -28,6 +25,16 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v7
+
+      - name: Set up Godot
+        uses: chickensoft-games/setup-godot@v2.4.2
+        with:
+          version: 4.7.2
+          use-dotnet: false
+          include-templates: true
+
+      - name: Export web build
+        run: godot --headless --export-release Web
 
       - name: Configure Pages
         uses: actions/configure-pages@v6
