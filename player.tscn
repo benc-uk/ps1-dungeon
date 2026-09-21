@@ -8,10 +8,11 @@
 script = ExtResource("1_4flbx")
 
 [node name="Container" type="Node3D" parent="." unique_id=1014839796]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.42, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
 
 [node name="MainCamera" type="Camera3D" parent="Container" unique_id=1835200015]
-fov = 87.0
+transform = Transform3D(1, 0, 0, 0, 0.98162717, 0.190809, 0, -0.190809, 0.98162717, 0, 0, 0)
+fov = 78.0
 far = 10.0
 
 [node name="MainLight" type="OmniLight3D" parent="Container" unique_id=638428465]

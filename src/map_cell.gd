@@ -1,15 +1,10 @@
-@tool
-extends Node3D
 class_name MapCell
+extends Node3D
 
-@export var show_walls: bool = true:
-	set(value):
-		show_walls = value
-		if is_node_ready():
-			_update_wall_visibility()
+@export var show_walls: bool = true
 
-func _ready() -> void:
+func _ready():
 	_update_wall_visibility()
 
-func _update_wall_visibility() -> void:
+func _update_wall_visibility():
 	$Node3D/Walls.visible = show_walls

@@ -17,22 +17,25 @@ func _ready():
 		queue_free()		
 		return
 				
-	print("Parsing...")
-	var wall_scene = load("res://map_cell.tscn")
-	for cell_pos in level_state.data:
-		var tile_type = level_state.data[cell_pos]
-		if tile_type == Grid.Tile.FLOOR || tile_type == Grid.Tile.WALL: 
-			var wall = wall_scene.instantiate() as MapCell
-			if tile_type == Grid.Tile.FLOOR:
-				wall.show_walls = false
-				
-			wall.position = Vector3(
-				cell_pos.x * Grid.CELL_SIZE,
-				0.0,
-				cell_pos.y * Grid.CELL_SIZE
-			)
-			$Map.add_child(wall)
-			
+	print("Parsing level state...")
+	var wall_scene = load("res://templates/map_cell.tscn")
+	var door_scene = load("res://templates/map_door.tscn")
+	for pos in level_state.cells:
+		var cell = level_state.cells[pos]
+		var inst = wall_scene.instantiate() as MapCell
+		if cell.type == LevelState.CellType.FLOOR:
+			inst.show_walls = false
+		
+		inst.position = Grid.cell_to_world(pos)
+		$Map.add_child(inst)	
+		
+		for feat in cell.features:
+			if feat.type == LevelState.FeatureType.DOOR:
+				inst = door_scene.instantiate() as MapDoor
+				inst.position = Grid.cell_to_world(pos)
+				if level_state.cells[Vector2i(pos.x, pos.y-1)].type == LevelState.CellType.WALL:
+					inst.rotate_y(deg_to_rad(90))
+				$Map.add_child(inst)	
 
 	var player_scene = load("res://player.tscn")
 	var player = player_scene.instantiate() as Node3D

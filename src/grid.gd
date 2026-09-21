@@ -2,7 +2,7 @@ class_name Grid
 extends RefCounted
 
 enum Dir { NORTH, EAST, SOUTH, WEST }
-enum Tile { FLOOR, WALL, DOOR }   # DOOR reserved for later
+#enum Tile { FLOOR, WALL, DOOR }   # DOOR reserved for later
 const CELL_SIZE := 1.0
 const STEP := { Dir.NORTH: Vector2i(0, -1), Dir.EAST: Vector2i(1, 0),
 								Dir.SOUTH: Vector2i(0, 1),  Dir.WEST: Vector2i(-1, 0) }
