@@ -1,0 +1,75 @@
+[gd_scene format=3 uid="uid://b1oshumj4imou"]
+
+[ext_resource type="Script" uid="uid://87sk14kx8d7o" path="res://src/light_flicker.gd" id="2_glcmn"]
+[ext_resource type="Texture2D" uid="uid://cykk8ahk1jmul" path="res://textures/torch_flame.png" id="3_ongkv"]
+[ext_resource type="PackedScene" uid="uid://c3ga5vuylu01d" path="res://models/wall_torch.glb" id="5_jfxb0"]
+
+[sub_resource type="Animation" id="Animation_ongkv"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:flip_h")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_xhpjc"]
+resource_name = "flip"
+length = 1.1
+loop_mode = 2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:flip_h")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8333333, 1.0333333),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [true, false, true, true, false, true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_jfxb0"]
+_data = {
+&"RESET": SubResource("Animation_ongkv"),
+&"flip": SubResource("Animation_xhpjc")
+}
+
+[node name="MapCell" type="Node3D" unique_id=865743777]
+
+[node name="Node3D" type="Node3D" parent="." unique_id=1487571949]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+
+[node name="WallTorch" parent="Node3D" unique_id=1612697120 instance=ExtResource("5_jfxb0")]
+transform = Transform3D(-3.4969112e-08, 0, 0.6309472, 0, 0.5990297, 0, -0.8, 0, -2.7579578e-08, -0.5, -0.009288907, 0)
+
+[node name="TorchLight" type="OmniLight3D" parent="Node3D" unique_id=1881441648]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2509867, 0.18521613, -0.0028885156)
+light_color = Color(1, 0.6933333, 0.19999999, 1)
+light_energy = 0.0
+light_indirect_energy = 0.0
+light_volumetric_fog_energy = 0.0
+light_specular = 0.0
+omni_range = 1.333
+omni_attenuation = 0.172
+script = ExtResource("2_glcmn")
+flicker_speed = 0.9
+base_energy = 0.1
+flicker_intensity = 5.0
+
+[node name="Sprite3D" type="Sprite3D" parent="Node3D" unique_id=1362154107]
+transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, -0.36534935, 0.23710173, 0.0056924224)
+flip_h = true
+billboard = 1
+texture_filter = 0
+texture = ExtResource("3_ongkv")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Node3D/Sprite3D" unique_id=1590218090]
+libraries/ = SubResource("AnimationLibrary_jfxb0")

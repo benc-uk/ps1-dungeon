@@ -10,14 +10,14 @@ focus**. Examples below describe changes to make, not changes already applied.
 
 ## Current design and responsibilities
 
-| Component | Responsibility |
-| --- | --- |
-| `src\grid.gd` (`Grid`) | Direction and tile enums, step vectors, cell size and coordinate conversion |
-| `src\level_state.gd` (`LevelState`) | Load the saved blueprint, hold cell and spawn data, answer terrain queries |
-| `src\game.gd` | Create one `LevelState`, generate 3D cells and create the player |
-| `src\player.gd` | Own logical cell/facing, handle input and move its own node |
-| `game.tscn` > `Map` | Parent for generated cells; no separate map script required |
-| `map_cell.tscn` / `MapCell` | Display one cell's walls, floor and ceiling |
+| Component                           | Responsibility                                                              |
+| ----------------------------------- | --------------------------------------------------------------------------- |
+| `src\grid.gd` (`Grid`)              | Direction and tile enums, step vectors, cell size and coordinate conversion |
+| `src\level_state.gd` (`LevelState`) | Load the saved blueprint, hold cell and spawn data, answer terrain queries  |
+| `src\game.gd`                       | Create one `LevelState`, generate 3D cells and create the player            |
+| `src\player.gd`                     | Own logical cell/facing, handle input and move its own node                 |
+| `game.tscn` > `Map`                 | Parent for generated cells; no separate map script required                 |
+| `map_cell.tscn` / `MapCell`         | Display one cell's walls, floor and ceiling                                 |
 
 `LevelState` is a plain `RefCounted` object, not a scene node or autoload.
 GDScript defaults to `RefCounted` when no `extends` is specified. Its current
@@ -34,8 +34,8 @@ Keep `Global` out of this.
 - `Grid.cell_to_world(cell)` returns
   `Vector3(cell.x * CELL_SIZE, 0.0, cell.y * CELL_SIZE)`.
 - Despite its name, this helper produces level-local coordinates. Apply
-	them to `position`, not `global_position`. Keep `Map`'s transform identity
-	relative to Game so generated cells and the Player child use the same space.
+  them to `position`, not `global_position`. Keep `Map`'s transform identity
+  relative to Game so generated cells and the Player child use the same space.
 - Player's root stays at Y = 0. Its camera/light parent already has a 0.5
   vertical offset. **Do not add eye height again when snapping or spawning.**
 
@@ -55,14 +55,14 @@ yaw is `deg_to_rad(-90.0 * facing)`.
 
 **Implemented.** Reuse the actual action names and bindings:
 
-| Action | Keys |
-| --- | --- |
-| `move_forward` | W / Up |
-| `move_backward` | S / Down |
-| `turn_left` | A / Left |
-| `turn_right` | D / Right |
-| `strafe_left` | Q |
-| `strafe_right` | E |
+| Action          | Keys      |
+| --------------- | --------- |
+| `move_forward`  | W / Up    |
+| `move_backward` | S / Down  |
+| `turn_left`     | A / Left  |
+| `turn_right`    | D / Right |
+| `strafe_left`   | Q         |
+| `strafe_right`  | E         |
 
 The backward action is singular: `move_backward`.
 
@@ -84,11 +84,11 @@ Level root
 
 Both layers use `levels\levels_tile_set.tres`. Its shared custom data is:
 
-| Field | Meaning |
-| --- | --- |
-| `tile_type` | `Grid.Tile` value for terrain; `-1` for a spawn marker |
-| `is_player_start` | Whether the tile marks the player spawn |
-| `player_start_face` | `Grid.Dir` value, 0 through 3 |
+| Field               | Meaning                                                |
+| ------------------- | ------------------------------------------------------ |
+| `tile_type`         | `Grid.Tile` value for terrain; `-1` for a spawn marker |
+| `is_player_start`   | Whether the tile marks the player spawn                |
+| `player_start_face` | `Grid.Dir` value, 0 through 3                          |
 
 There are four spawn-arrow tiles, one per direction. Custom data belongs to
 the tile definition, not an individual painted cell. Paint the appropriate
@@ -112,7 +112,6 @@ The current flow is:
 
 - `name`, `data`, `player_start`, `player_start_face`.
 - `is_walkable(cell)`: true for floor; missing cells and doors are blocked.
-- `tile_at(cell)`: the stored type, with missing cells treated as walls.
 
 For generated cells, `show_walls = true` means a solid wall cell;
 `show_walls = false` leaves floor and ceiling. This is whole-cell terrain,
@@ -143,12 +142,12 @@ var cell: Vector2i
 var facing: Grid.Dir
 var level_state: LevelState
 
-func teleport(c: Vector2i, f: Grid.Dir) -> void:
+func teleport(c: Vector2i, f: Grid.Dir):
 	cell = c
 	facing = f
 	_snap()
 
-func _snap() -> void:
+func _snap():
 	position = Grid.cell_to_world(cell)
 	rotation.y = deg_to_rad(-90.0 * facing)
 ```
@@ -184,13 +183,13 @@ dependency.
 Direction comes from `Grid.STEP[facing]`, not the live camera basis.
 
 ```gdscript
-func _try_step(direction: Vector2i) -> void:
+func _try_step(direction: Vector2i):
 	var target_cell := cell + direction
 	if level_state.is_walkable(target_cell):
 		cell = target_cell
 		_snap()
 
-func _turn(quarter_turns: int) -> void:
+func _turn(quarter_turns: int):
 	facing = posmod(facing + quarter_turns, 4) as Grid.Dir
 	_snap()
 ```
@@ -204,7 +203,7 @@ Use edge-triggered input in `_physics_process()`. An `if`/`elif` chain
 ensures simultaneous presses do not produce multiple actions in one tick.
 
 ```gdscript
-func _physics_process(_delta: float) -> void:
+func _physics_process(_delta: float):
 	if Input.is_action_just_pressed("move_forward"):
 		_try_step(Grid.STEP[facing])
 	elif Input.is_action_just_pressed("move_backward"):
@@ -299,15 +298,15 @@ Keep new gameplay systems out of Player and Global.
 
 ## Progress at a glance
 
-| Phase | Deliverable | Current position |
-| --- | --- | --- |
-| 0 | Grid conventions and coordinate helper | Implemented |
-| 1 | Six input actions | Implemented |
-| 2 | Painted blueprints, LevelState and generated cells | Basic implementation exists |
-| 3 | Logical spawn, instant steps and turns | Current focus |
-| 4 | Tweened actions and busy states | Not implemented |
-| 5 | Load validation and blueprint cleanup | Outstanding |
-| 6 | Whole-cell doors and dynamic state | Later |
+| Phase | Deliverable                                        | Current position            |
+| ----- | -------------------------------------------------- | --------------------------- |
+| 0     | Grid conventions and coordinate helper             | Implemented                 |
+| 1     | Six input actions                                  | Implemented                 |
+| 2     | Painted blueprints, LevelState and generated cells | Basic implementation exists |
+| 3     | Logical spawn, instant steps and turns             | Current focus               |
+| 4     | Tweened actions and busy states                    | Not implemented             |
+| 5     | Load validation and blueprint cleanup              | Outstanding                 |
+| 6     | Whole-cell doors and dynamic state                 | Later                       |
 
 ## Validation when implementing
 

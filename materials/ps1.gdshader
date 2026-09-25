@@ -1,8 +1,11 @@
+// ===============================================================================================
+// PS1 material shader - Apply to all objects and meshes for a PS1 look
+// Emulates the affine texture mapping and vertex snapping of the original PlayStation.
+// ===============================================================================================
+
 shader_type spatial;
 render_mode diffuse_lambert, specular_disabled, vertex_lighting;
 
-// Opaque, mesh-UV material. Snap size is measured before window upscaling.
-// For one texture repeat per face: UV scale (3, 2) on BoxMesh, (1, 1) on PlaneMesh.
 uniform sampler2D albedo_texture : source_color, hint_default_white, filter_nearest, repeat_enable;
 uniform vec3 albedo_tint : source_color = vec3(1.0);
 uniform vec2 uv_scale = vec2(1.0);
@@ -10,7 +13,6 @@ uniform vec2 uv_offset = vec2(0.0);
 uniform float affine_strength : hint_range(0.0, 1.0, 0.05) = 1.0;
 uniform float snap_pixels : hint_range(0.0, 8.0, 0.25) = 1.0;
 
-// Keep weights positive at the camera plane without flattening nearby cell depths.
 const float AFFINE_MIN_DEPTH = 0.75;
 
 varying vec3 affine_uv;

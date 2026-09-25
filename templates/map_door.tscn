@@ -1,25 +1,30 @@
 [gd_scene format=3 uid="uid://hfo71p7s2pc"]
 
-[ext_resource type="Script" uid="uid://c0y75jveersac" path="res://src/map_door.gd" id="1_5ahy0"]
-[ext_resource type="Material" uid="uid://c26lp2kj6axbs" path="res://materials/ps1_floor_material.tres" id="3_5ahy0"]
+[ext_resource type="Texture2D" uid="uid://dkjmrp3otqpkt" path="res://textures/tr/tr_flat_0.png" id="2_s774j"]
 [ext_resource type="Shader" uid="uid://b64wob6ivurd6" path="res://materials/ps1.gdshader" id="3_utbtq"]
-[ext_resource type="Material" uid="uid://07jmea2hugpj" path="res://materials/ps1_ceiling_material.tres" id="4_r0qu2"]
-[ext_resource type="Texture2D" uid="uid://bwnsc77c3yvdv" path="res://textures/clean_white_city_bricks_weathered_2.png" id="4_utbtq"]
+[ext_resource type="AudioStream" uid="uid://cli71ouq8t7ye" path="res://audio/sfx/castle-door-opening-and-closing.wav" id="4_utbtq"]
 [ext_resource type="Texture2D" uid="uid://cf7pwevvni563" path="res://textures/plank_parquet_floor.png" id="5_cswfs"]
 
-[sub_resource type="PlaneMesh" id="PlaneMesh_0r20c"]
-subdivide_width = 1
-subdivide_depth = 1
+[sub_resource type="GDScript" id="GDScript_utbtq"]
+script/source = "extends Node3D
 
-[sub_resource type="PlaneMesh" id="PlaneMesh_48buh"]
-flip_faces = true
-subdivide_width = 1
-subdivide_depth = 1
+func bind(feature: WorldState.Feature):
+	feature.state_changed.connect(_on_state_changed)
+	_on_state_changed(feature.state)
+	
+func _on_state_changed(new_state: WorldState.DoorFeature.State) -> void:
+	match new_state:
+		WorldState.DoorFeature.State.OPEN:
+			$Anim.play(\"open\")
+
+		WorldState.DoorFeature.State.CLOSED:
+			$Anim.play_backwards(\"open\")
+"
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_hwlol"]
 render_priority = 0
 shader = ExtResource("3_utbtq")
-shader_parameter/albedo_texture = ExtResource("4_utbtq")
+shader_parameter/albedo_texture = ExtResource("2_s774j")
 shader_parameter/albedo_tint = Color(1, 1, 1, 1)
 shader_parameter/uv_scale = Vector2(4, 2)
 shader_parameter/uv_offset = Vector2(0, 0)
@@ -37,7 +42,7 @@ subdivide_depth = 1
 render_priority = 0
 shader = ExtResource("3_utbtq")
 shader_parameter/albedo_texture = ExtResource("5_cswfs")
-shader_parameter/albedo_tint = Color(0.98866665, 1, 0.65999997, 1)
+shader_parameter/albedo_tint = Color(1, 1, 1, 1)
 shader_parameter/uv_scale = Vector2(6, 3)
 shader_parameter/uv_offset = Vector2(0, 0)
 shader_parameter/affine_strength = 1.0
@@ -59,7 +64,8 @@ tracks/0/loop_wrap = true
 tracks/0/keys = PackedFloat32Array(0, 1, 0, 0.007846534, 0)
 
 [sub_resource type="Animation" id="Animation_5ahy0"]
-resource_name = "new_animation"
+resource_name = "open"
+length = 1.4
 tracks/0/type = "position_3d"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -67,30 +73,33 @@ tracks/0/path = NodePath("Node3D/Door")
 tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/keys = PackedFloat32Array(0, 1, 0, 0.007846534, 0, 1, 1, 0, 0.75, 0)
+tracks/1/type = "audio"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Node3D/Door/AudioStreamPlayer3D")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"clips": [{
+"end_offset": 0.7786924,
+"start_offset": 1.204291,
+"stream": ExtResource("4_utbtq")
+}],
+"times": PackedFloat32Array(0.6901909)
+}
+tracks/1/use_blend = true
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_r0qu2"]
 _data = {
 &"RESET": SubResource("Animation_cswfs"),
-&"new_animation": SubResource("Animation_5ahy0")
+&"open": SubResource("Animation_5ahy0")
 }
 
 [node name="MapDoor" type="Node3D" unique_id=865743777]
-script = ExtResource("1_5ahy0")
+script = SubResource("GDScript_utbtq")
 
 [node name="Node3D" type="Node3D" parent="." unique_id=1487571949]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
-
-[node name="Floor" type="MeshInstance3D" parent="Node3D" unique_id=1054229934]
-transform = Transform3D(0.5, 0, 0, 0, 1, 0, 0, 0, 0.5, 0, -0.5, 0)
-visible = false
-material_override = ExtResource("3_5ahy0")
-mesh = SubResource("PlaneMesh_0r20c")
-
-[node name="Ceil" type="MeshInstance3D" parent="Node3D" unique_id=550939219]
-transform = Transform3D(0.5, 0, 0, 0, 1, 0, 0, 0, 0.5, 0, 0.5, 0)
-visible = false
-material_override = ExtResource("4_r0qu2")
-mesh = SubResource("PlaneMesh_48buh")
 
 [node name="Frame" type="CSGMesh3D" parent="Node3D" unique_id=1136984200]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.3, 0, 0, 0)
@@ -103,10 +112,13 @@ operation = 2
 mesh = SubResource("BoxMesh_u4q2b")
 
 [node name="Door" type="MeshInstance3D" parent="Node3D" unique_id=1404453353]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.08, 0, 0.007846534, 0)
+transform = Transform3D(0.7091745, 0, 0, 0, 1, 0, 0, 0, 0.08, 0, 0.007846534, 0)
 material_override = SubResource("ShaderMaterial_fw0bm")
 mesh = SubResource("BoxMesh_koh8a")
 
-[node name="OpenClose" type="AnimationPlayer" parent="Node3D/Door" unique_id=2008916821]
-root_node = NodePath("../../..")
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Node3D/Door" unique_id=611635585]
+volume_db = 3.179
+pitch_scale = 0.8
+
+[node name="Anim" type="AnimationPlayer" parent="." unique_id=2008916821]
 libraries/ = SubResource("AnimationLibrary_r0qu2")

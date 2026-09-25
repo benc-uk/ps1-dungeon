@@ -8,14 +8,14 @@ extends OmniLight3D
 var noise: FastNoiseLite
 var time_passed: float = 0.0
 
-func _ready() -> void:
+func _ready():
 	noise = FastNoiseLite.new()
 	noise.noise_type = FastNoiseLite.TYPE_PERLIN
 	noise.frequency = 0.5
 	# Give it a completely random starting seed so other torches don't match
 	noise.seed = randi() 
 
-func _process(delta: float) -> void:
+func _process(delta: float):
 	time_passed += delta * flicker_speed
 	
 	# Get a raw noise value between -1.0 and 1.0

@@ -1,0 +1,95 @@
+[gd_scene format=3 uid="uid://bgna07a78jm0j"]
+
+[ext_resource type="Material" path="res://materials/ps1_ceiling_material.tres" id="2_q16e8"]
+[ext_resource type="Shader" uid="uid://b64wob6ivurd6" path="res://materials/ps1.gdshader" id="3_p41gu"]
+[ext_resource type="Texture2D" uid="uid://dkjmrp3otqpkt" path="res://textures/tr/tr_flat_0.png" id="4_mq2qf"]
+[ext_resource type="Texture2D" uid="uid://d24io66rwasd2" path="res://textures/32/corroded_metal_grid_sharp_1.png" id="5_q16e8"]
+
+[sub_resource type="GDScript" id="GDScript_s774j"]
+script/source = "extends Node3D
+
+func bind(feature: WorldState.Feature):
+	feature.activated.connect(_on_activated)
+	
+func _on_activated() -> void:
+	$Anim.play(\"activate\")
+"
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_48buh"]
+flip_faces = true
+subdivide_width = 1
+subdivide_depth = 1
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_koh8a"]
+render_priority = 0
+shader = ExtResource("3_p41gu")
+shader_parameter/albedo_texture = ExtResource("4_mq2qf")
+shader_parameter/albedo_tint = Color(1, 1, 1, 1)
+shader_parameter/uv_scale = Vector2(3, 2)
+shader_parameter/uv_offset = Vector2(0, 0)
+shader_parameter/affine_strength = 1.0
+shader_parameter/snap_pixels = 1.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_48buh"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xkcy3"]
+render_priority = 0
+shader = ExtResource("3_p41gu")
+shader_parameter/albedo_texture = ExtResource("5_q16e8")
+shader_parameter/albedo_tint = Color(1, 1, 1, 1)
+shader_parameter/uv_scale = Vector2(3, 2)
+shader_parameter/uv_offset = Vector2(0, 0)
+shader_parameter/affine_strength = 1.0
+shader_parameter/snap_pixels = 1.0
+
+[sub_resource type="Animation" id="Animation_mq2qf"]
+length = 0.001
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0.45414534, -0.12779024, 0)
+
+[sub_resource type="Animation" id="Animation_q16e8"]
+resource_name = "activate"
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0.45414534, -0.12779024, 0, 0.5, 1, 0.47, -0.128, 0, 1, 1, 0.454, -0.128, 0)
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_p41gu"]
+_data = {
+&"RESET": SubResource("Animation_mq2qf"),
+&"activate": SubResource("Animation_q16e8")
+}
+
+[node name="MapWallButton" type="Node3D" unique_id=865743777]
+script = SubResource("GDScript_s774j")
+
+[node name="Node3D" type="Node3D" parent="." unique_id=1487571949]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+
+[node name="Ceil" type="MeshInstance3D" parent="Node3D" unique_id=550939219]
+transform = Transform3D(0.5, 0, 0, 0, 1, 0, 0, 0, 0.5, 0, 0.5, 0)
+visible = false
+material_override = ExtResource("2_q16e8")
+mesh = SubResource("PlaneMesh_48buh")
+
+[node name="Frame" type="MeshInstance3D" parent="Node3D" unique_id=1941685854]
+transform = Transform3D(0.035550155, 0, 0, 0, 0.13923879, 0, 0, 0, 0.19271925, 0.47727618, -0.12980863, 0)
+material_override = SubResource("ShaderMaterial_koh8a")
+mesh = SubResource("BoxMesh_48buh")
+
+[node name="Button" type="MeshInstance3D" parent="Node3D" unique_id=1371664258]
+transform = Transform3D(0.035550155, 0, 0, 0, 0.10041445, 0, 0, 0, 0.15014204, 0.45414534, -0.12779024, 0)
+material_override = SubResource("ShaderMaterial_xkcy3")
+mesh = SubResource("BoxMesh_48buh")
+
+[node name="Anim" type="AnimationPlayer" parent="." unique_id=350822360]
+root_node = NodePath("../Node3D/Button")
+libraries/ = SubResource("AnimationLibrary_p41gu")

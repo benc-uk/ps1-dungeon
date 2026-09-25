@@ -1,18 +1,49 @@
 [gd_scene format=3 uid="uid://cj7181065ltt3"]
 
 [ext_resource type="Script" uid="uid://b517nhrxcj4o6" path="res://src/map_cell.gd" id="1_1m6tf"]
-[ext_resource type="Material" uid="uid://cpoqdc0t537bn" path="res://materials/ps1_wall_material.tres" id="2_wlumk"]
-[ext_resource type="Material" uid="uid://c26lp2kj6axbs" path="res://materials/ps1_floor_material.tres" id="3_floor"]
-[ext_resource type="Material" uid="uid://07jmea2hugpj" path="res://materials/ps1_ceiling_material.tres" id="4_ceiling"]
+[ext_resource type="Shader" uid="uid://b64wob6ivurd6" path="res://materials/ps1.gdshader" id="2_b82vn"]
+[ext_resource type="Texture2D" uid="uid://hlypvre2jj8g" path="res://textures/tr/tr_wall_3.png" id="3_b82vn"]
+[ext_resource type="Texture2D" uid="uid://dkjmrp3otqpkt" path="res://textures/tr/tr_flat_0.png" id="4_kyb6q"]
+[ext_resource type="Texture2D" uid="uid://calj64im08sm5" path="res://textures/beige_mortar_bricks_sharp.png" id="5_si46y"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hwlol"]
+render_priority = 0
+shader = ExtResource("2_b82vn")
+shader_parameter/albedo_texture = ExtResource("3_b82vn")
+shader_parameter/albedo_tint = Color(1, 1, 1, 1)
+shader_parameter/uv_scale = Vector2(3, 2)
+shader_parameter/uv_offset = Vector2(0, 0)
+shader_parameter/affine_strength = 1.0
+shader_parameter/snap_pixels = 2.0
 
 [sub_resource type="BoxMesh" id="BoxMesh_0r20c"]
 subdivide_width = 1
 subdivide_height = 1
 subdivide_depth = 1
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mom7w"]
+render_priority = 0
+shader = ExtResource("2_b82vn")
+shader_parameter/albedo_texture = ExtResource("4_kyb6q")
+shader_parameter/albedo_tint = Color(1, 1, 1, 1)
+shader_parameter/uv_scale = Vector2(1, 1)
+shader_parameter/uv_offset = Vector2(0, 0)
+shader_parameter/affine_strength = 1.0
+shader_parameter/snap_pixels = 2.0
+
 [sub_resource type="PlaneMesh" id="PlaneMesh_0r20c"]
 subdivide_width = 1
 subdivide_depth = 1
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_nlh3m"]
+render_priority = 0
+shader = ExtResource("2_b82vn")
+shader_parameter/albedo_texture = ExtResource("5_si46y")
+shader_parameter/albedo_tint = Color(1, 1, 1, 1)
+shader_parameter/uv_scale = Vector2(1, 1)
+shader_parameter/uv_offset = Vector2(0, 0)
+shader_parameter/affine_strength = 1.0
+shader_parameter/snap_pixels = 2.0
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_48buh"]
 flip_faces = true
@@ -26,15 +57,15 @@ script = ExtResource("1_1m6tf")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 
 [node name="Walls" type="MeshInstance3D" parent="Node3D" unique_id=713625888]
-material_override = ExtResource("2_wlumk")
+material_override = SubResource("ShaderMaterial_hwlol")
 mesh = SubResource("BoxMesh_0r20c")
 
 [node name="Floor" type="MeshInstance3D" parent="Node3D" unique_id=1054229934]
 transform = Transform3D(0.5, 0, 0, 0, 1, 0, 0, 0, 0.5, 0, -0.5, 0)
-material_override = ExtResource("3_floor")
+material_override = SubResource("ShaderMaterial_mom7w")
 mesh = SubResource("PlaneMesh_0r20c")
 
 [node name="Ceil" type="MeshInstance3D" parent="Node3D" unique_id=550939219]
 transform = Transform3D(0.5, 0, 0, 0, 1, 0, 0, 0, 0.5, 0, 0.5, 0)
-material_override = ExtResource("4_ceiling")
+material_override = SubResource("ShaderMaterial_nlh3m")
 mesh = SubResource("PlaneMesh_48buh")
