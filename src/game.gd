@@ -2,6 +2,7 @@ extends Node3D
 
 var world_state: WorldState
 var level_filename = "" # Populated when starting a new game or loading a level
+var paused = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -70,3 +71,15 @@ func _ready():
 	player.teleport(world_state.player_start, world_state.player_start_face)
 	add_child(player)
 	print("Player added at: ", world_state.player_start)
+
+func _physics_process(delta: float):
+	if Input.is_action_just_pressed("pause"):
+		if !paused:
+			$HudPause.show()
+			paused = true
+			return
+		if paused:
+			$HudPause.hide()
+			paused = false
+			return
+		print(paused)

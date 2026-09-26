@@ -3,12 +3,12 @@
 importer="font_data_dynamic"
 type="FontFile"
 uid="uid://c581dp7ywpe4r"
-path="res://.godot/imported/Seagram tfb.ttf-94c528a26180b1609661b49a63307bc8.fontdata"
+path="res://.godot/imported/seagram.ttf-0197485e643f8da367cacae0c0216cc3.fontdata"
 
 [deps]
 
-source_file="res://fonts/Seagram tfb.ttf"
-dest_files=["res://.godot/imported/Seagram tfb.ttf-94c528a26180b1609661b49a63307bc8.fontdata"]
+source_file="res://fonts/seagram.ttf"
+dest_files=["res://.godot/imported/seagram.ttf-0197485e643f8da367cacae0c0216cc3.fontdata"]
 
 [params]
 

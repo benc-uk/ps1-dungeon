@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://dsdeg3sv4xtwd" path="res://src/game.gd" id="1_80nbo"]
 [ext_resource type="AudioStream" uid="uid://c6ju4cycpkyii" path="res://audio/music/236_Defiled_Temple.mp3" id="2_feb5d"]
 [ext_resource type="Shader" uid="uid://cak1jdr8fw6km" path="res://misc/ps1_output.gdshader" id="3_feb5d"]
+[ext_resource type="PackedScene" uid="uid://bslk0txusmhlb" path="res://hud_pause.tscn" id="4_fc0e3"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_feb5d"]
 shader = ExtResource("3_feb5d")
@@ -25,3 +26,6 @@ material = SubResource("ShaderMaterial_feb5d")
 offset_right = 320.0
 offset_bottom = 240.0
 mouse_filter = 2
+
+[node name="HudPause" parent="." unique_id=1199916584 instance=ExtResource("4_fc0e3")]
+visible = false

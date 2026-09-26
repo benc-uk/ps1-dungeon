@@ -17,6 +17,7 @@ var world_state: WorldState
 enum State { IDLE, MOVING, TURNING }
 var state: State = State.IDLE
 var movement_tween: Tween
+var buffered_action: StringName = &""
 
 func _ready():
 	pass
@@ -25,23 +26,34 @@ func _physics_process(delta: float):
 	_update_head_look(delta)
 
 	if state != State.IDLE:
-		return
+		var action := _read_action()
+		if action != &"": buffered_action = action
+		return 
 
-	if Input.is_action_just_pressed("move_forward"):
-		_try_step(Grid.STEP[facing])
-	elif Input.is_action_just_pressed("move_backward"):
-		_try_step(-Grid.STEP[facing])
-	elif Input.is_action_just_pressed("turn_left"):
-		_turn(-1)
-	elif Input.is_action_just_pressed("turn_right"):
-		_turn(1)	
-	elif Input.is_action_just_pressed("strafe_left"):
-		_try_step(Grid.STEP[(facing + 3) % 4])
-	elif Input.is_action_just_pressed("strafe_right"):
-		_try_step(Grid.STEP[(facing + 1) % 4])		
-	elif Input.is_action_just_pressed("interact"):
-		_interact()
-			
+	var action := _read_action()
+	if action != &"":
+		_do_action(action)
+
+func _read_action() -> StringName:
+	if Input.is_action_just_pressed("move_forward"): return &"move_forward"
+	if Input.is_action_just_pressed("move_backward"): return &"move_backward"
+	if Input.is_action_just_pressed("turn_left"): return &"turn_left"
+	if Input.is_action_just_pressed("turn_right"): return &"turn_right"
+	if Input.is_action_just_pressed("strafe_left"): return &"strafe_left"
+	if Input.is_action_just_pressed("strafe_right"): return &"strafe_right"
+	if Input.is_action_just_pressed("interact"): return &"interact"
+	return &""
+
+func _do_action(action: StringName):
+	match action:
+		&"move_forward": _try_step(Grid.STEP[facing])
+		&"move_backward": _try_step(-Grid.STEP[facing])
+		&"turn_left": _turn(-1)
+		&"turn_right": _turn(1)
+		&"strafe_left": _try_step(Grid.STEP[(facing + 3) % 4])
+		&"strafe_right": _try_step(Grid.STEP[(facing + 1) % 4])
+		&"interact": _interact()
+		
 func _update_head_look(delta: float):
 	var look_x := _apply_deadzone(Input.get_joy_axis(0, JOY_AXIS_RIGHT_X), look_deadzone)
 	var look_y := _apply_deadzone(Input.get_joy_axis(0, JOY_AXIS_RIGHT_Y), look_deadzone)
@@ -72,7 +84,6 @@ func teleport(p: Vector2i, f: Grid.Dir):
 	cell = world_state.cells[pos]
 	state = State.IDLE
 	_snap()
-
 
 func _snap():
 	position = Grid.cell_to_world(pos)
@@ -138,3 +149,7 @@ func _finish_action():
 	_snap()
 	movement_tween = null
 	state = State.IDLE
+	if buffered_action != &"":
+		var next := buffered_action
+		buffered_action = &""
+		_do_action(next)

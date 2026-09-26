@@ -1,7 +1,8 @@
 [gd_scene format=3 uid="uid://cqojkvivqqsby"]
 
+[ext_resource type="Theme" uid="uid://df0u3qve4qjua" path="res://misc/main_theme.tres" id="1_7lgly"]
 [ext_resource type="Script" uid="uid://ud78glnt5pyn" path="res://src/title.gd" id="1_oyqm6"]
-[ext_resource type="FontFile" uid="uid://c581dp7ywpe4r" path="res://fonts/Seagram tfb.ttf" id="1_y7k74"]
+[ext_resource type="FontFile" uid="uid://c581dp7ywpe4r" path="res://fonts/seagram.ttf" id="1_y7k74"]
 [ext_resource type="Texture2D" uid="uid://c7ui525i4a8yh" path="res://art/title_bg.jpg" id="2_kpexm"]
 [ext_resource type="AudioStream" uid="uid://ckhbwkrruqoyv" path="res://audio/music/488_Manor_Dark.mp3" id="4_mom7w"]
 [ext_resource type="Shader" uid="uid://cak1jdr8fw6km" path="res://misc/ps1_output.gdshader" id="5_mom7w"]
@@ -27,7 +28,12 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("1_7lgly")
 script = ExtResource("1_oyqm6")
+
+[node name="Music" type="AudioStreamPlayer" parent="." unique_id=1632124358]
+stream = ExtResource("4_mom7w")
+autoplay = true
 
 [node name="TitleBg" type="Sprite2D" parent="." unique_id=1383629092]
 texture_filter = 1
@@ -35,7 +41,7 @@ position = Vector2(159.625, 120)
 scale = Vector2(0.2675146, 0.26785713)
 texture = ExtResource("2_kpexm")
 
-[node name="Label" type="Label" parent="." unique_id=1996636396]
+[node name="TitleLabel" type="Label" parent="." unique_id=1996636396]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -57,14 +63,12 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -54.0
-offset_top = -95.0
+offset_top = -107.0
 offset_right = 53.0
-offset_bottom = -71.0
+offset_bottom = -72.0
 grow_horizontal = 2
 grow_vertical = 0
-theme_override_colors/font_color = Color(0.8392157, 0.7607843, 0.023529412, 1)
-theme_override_fonts/font = ExtResource("1_y7k74")
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 14
 text = "New Game"
 
 [node name="LoadButton" type="Button" parent="." unique_id=2078588754]
@@ -75,38 +79,32 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -54.0
-offset_top = -61.0
+offset_top = -59.0
 offset_right = 53.0
-offset_bottom = -37.0
+offset_bottom = -24.0
 grow_horizontal = 2
 grow_vertical = 0
-theme_override_colors/font_color = Color(0.8392157, 0.7607843, 0.023529412, 1)
-theme_override_fonts/font = ExtResource("1_y7k74")
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 14
 text = "Load Game"
 
-[node name="Label2" type="Label" parent="." unique_id=470582943]
+[node name="VersionLab" type="Label" parent="." unique_id=470582943]
 layout_mode = 0
-offset_left = 4.0
-offset_top = 226.0
-offset_right = 49.0
+offset_left = 3.0
+offset_top = 225.0
+offset_right = 82.0
 offset_bottom = 240.0
-theme_override_font_sizes/font_size = 10
-text = "v0.0.1"
+theme_override_colors/font_color = Color(1, 1, 1, 0.65882355)
+theme_override_font_sizes/font_size = 13
+text = "v0.0.1-alpha.002"
 vertical_alignment = 1
-
-[node name="Music" type="AudioStreamPlayer" parent="." unique_id=1632124358]
-stream = ExtResource("4_mom7w")
-autoplay = true
 
 [node name="MusicCheckButton" type="CheckButton" parent="." unique_id=888109611]
 layout_mode = 0
-offset_left = 261.0
-offset_top = 225.20003
-offset_right = 356.0
-offset_bottom = 254.20003
+offset_left = 251.00002
+offset_top = 221.00002
+offset_right = 363.0
+offset_bottom = 258.0
 scale = Vector2(0.6, 0.6)
-theme_override_fonts/font = ExtResource("1_y7k74")
 button_pressed = true
 text = "Music"
 

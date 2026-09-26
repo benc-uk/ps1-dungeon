@@ -1,9 +1,9 @@
 extends Node
 
 func _ready():
-	pass
 	# Debug, jump to start tomb level
-	start_new_game("tomb")
+	#start_new_game("tomb")
+	$NewButton.grab_focus()
 	_on_music_check_button_toggled($MusicCheckButton.button_pressed)
 
 func _on_new_button_pressed():
